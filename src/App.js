@@ -1,6 +1,7 @@
 import './App.scss';
+import ContSwitchingTags from './SwitchingTags/ContSwitchingTags';
 function App() {
-	return <div>Hello</div>;
+	return <ContSwitchingTags />;
 }
 
 export default App;
