@@ -1,7 +1,13 @@
 import './App.scss';
-import ContSwitchingTags from './SwitchingTags/ContSwitchingTags';
+import ContSiteStyles from './components/Settings/ContSiteStyles';
+import ContSite from './components/Site/ContSite';
 function App() {
-	return <ContSwitchingTags />;
+	return (
+		<div>
+			<ContSiteStyles />
+			<ContSite />
+		</div>
+	);
 }
 
 export default App;
