@@ -1,55 +1,88 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	crateDefaultUnitObject,
-	inputValue,
-	leftUnitActive,
-	rightUnitActive,
-} from '../../reducers/switchingTagsReducer';
+import { setGobalStyle, setStyleToBlock } from '../../reducers/mainSiteReducer';
 import SwitchingTags from './SwitchingTags';
-
 const ContSwitchingTags = (props) => {
-	const switchingTagsReducer = useSelector((state) => state.switchingTagsReducer);
-	let settings = switchingTagsReducer[props.name];
 	const dispatch = useDispatch();
+	const lastActiveStyle = useSelector((state) => state.mainSiteReducer.lastActive);
+	const defaultSettings = {
+		left: '%',
+		right: 'px',
+		value: lastActiveStyle?.style[props.name] || 0,
+		active: 'right',
+	};
 
-	if (!settings) {
-		dispatch(crateDefaultUnitObject(props.name));
-	}
+	const [settings, setSettings] = useState(defaultSettings);
+	let unit = settings[settings.active];
+	let cleanValue = settings.value;
+	let value = cleanValue + unit;
+	useEffect(() => {
+		if (!lastActiveStyle?.style[props.name]) return;
+		const style = lastActiveStyle.style[props.name];
+		const valUnit = style?.replace(/[0-9]/g, '');
+		const valDig = style?.replace(/[^0-9]/g, '');
+		let active = defaultSettings.active;
+		let left = defaultSettings.left;
+		if (defaultSettings.left === valUnit) {
+			active = 'left';
+		} else if (defaultSettings.right === valUnit) {
+			active = 'right';
+		} else {
+			left = valUnit;
+			active = 'left';
+		}
+		setSettings({
+			left: left,
+			right: defaultSettings.right,
+			value: valDig,
+			active: active,
+		});
+	}, [lastActiveStyle]);
 
-	function onLeftClick(e) {
-		dispatch(leftUnitActive(e.target.name));
-	}
-	function onRightClick(e) {
-		dispatch(rightUnitActive(e.target.name));
-	}
-	function onChangehandler(e) {
+	const onLeftTagClick = useCallback(
+		(e, unit) => {
+			setSettings({ ...settings, active: 'left' });
+			dispatch(setGobalStyle({ [props.name]: cleanValue + unit }));
+			dispatch(setStyleToBlock());
+		},
+		[cleanValue, unit]
+	);
+	const onRightTagClick = useCallback(
+		(e, unit) => {
+			setSettings({ ...settings, active: 'right' });
+			dispatch(setGobalStyle({ [props.name]: cleanValue + unit }));
+			dispatch(setStyleToBlock());
+		},
+		[cleanValue, unit]
+	);
+	const onChangeHandler = (e) => {
 		const onlyDigits = e.target.value.replace(/[^0-9]/g, '');
-		dispatch(inputValue(e.target.name, onlyDigits));
-	}
-	function onCenterClick(e) {
+		setSettings({ ...settings, value: onlyDigits });
+		dispatch(setGobalStyle({ [props.name]: onlyDigits + unit }));
+		dispatch(setStyleToBlock());
+	};
+	const onCenterClick = (e) => {
 		const root = e.target;
 		const value = root.value;
-		const unit = settings && settings[settings.active];
 		root.selectionStart = 0;
 		root.selectionEnd = value.length - unit.length;
-	}
-	function onCenterKeyPress(e) {
+	};
+	const onCenterKeyUp = (e) => {
 		const root = e.target;
-		const value = root.value;
-		const unit = settings && settings[settings.active];
 		root.selectionEnd = value.length - unit.length;
-	}
-
+	};
+	console.log(`render>${props.name}`);
 	return (
 		<SwitchingTags
-			onCenterKeyPress={onCenterKeyPress}
-			onCenterClick={onCenterClick}
-			onChangehandler={onChangehandler}
-			onLeftClick={onLeftClick}
-			onRightClick={onRightClick}
-			settings={settings}
 			name={props.name}
+			setSettings={setSettings}
+			settings={settings}
+			value={value}
+			onCenterKeyUp={onCenterKeyUp}
+			onCenterClick={onCenterClick}
+			onChangeHandler={onChangeHandler}
+			onLeftTagClick={onLeftTagClick}
+			onRightTagClick={onRightTagClick}
 		/>
 	);
 };

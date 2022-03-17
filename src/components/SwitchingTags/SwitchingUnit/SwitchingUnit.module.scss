@@ -1,0 +1,28 @@
+$background: #ccc;
+$bg_hover: #c5d15acc;
+
+.switcher__tag {
+	&:hover {
+		cursor: pointer;
+		background: $bg_hover;
+	}
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 32px;
+	&_left {
+		background: $background;
+		border-radius: 50% 0% 0% 50%;
+	}
+	&_right {
+		background: $background;
+		border-radius: 0% 50% 50% 0%;
+	}
+	&-active {
+		background: $bg_hover;
+	}
+	&_select {
+		text-align: center;
+		width: 55px;
+	}
+}

@@ -1,16 +1,33 @@
-import React, { createElement } from 'react';
+import React, { createElement, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { activeBlock } from '../../reducers/mainSiteReducer';
+import { createSelector } from 'reselect';
+import { activeBlock, setEditMode } from '../../reducers/mainSiteReducer';
 import Site from './Site';
 
 const ContSite = (props) => {
-	let structure = useSelector((state) => state.mainSiteReducer);
+	let structure = useSelector((state) => state.mainSiteReducer.structure);
 	let dispatch = useDispatch();
-
+	let timeout;
+	let prevent = false;
 	const onClickHandler = (e, val) => {
+		prevent = false;
+		e.stopPropagation();
+		timeout = setTimeout(() => {
+			if (!prevent) {
+				console.log(val);
+				dispatch(activeBlock(val));
+				dispatch(setEditMode(false));
+			}
+		}, 200);
+	};
+
+	const onDblClickHandler = (e, val) => {
 		console.log(val);
 		e.stopPropagation();
+		clearTimeout(timeout);
+		prevent = true;
 		dispatch(activeBlock(val));
+		dispatch(setEditMode(true));
 	};
 	const recursionMap = (array) => {
 		if (!array.length) return;
@@ -22,12 +39,14 @@ const ContSite = (props) => {
 					style: val?.style || {},
 					className: val?.className || '',
 					onClick: (e) => onClickHandler(e, val),
+					onDoubleClick: (e) => onDblClickHandler(e, val),
 				},
 				recursionMap(val.child)
 			);
 		});
 	};
-	return <Site>{recursionMap(structure.structure)}</Site>;
+	// return <Site>Привет</Site>;
+	return <Site>{recursionMap(structure)}</Site>;
 };
 
 export default ContSite;

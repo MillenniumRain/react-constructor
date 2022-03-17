@@ -1,7 +1,7 @@
-const LEFT_UNIT_CLICK_ACTIVE = 'LEFT_UNIT_CLICK_ACTIVE';
-const RIGHT_UNIT_CLICK_ACTIVE = 'RIGHT_UNIT_CLICK_ACTIVE';
-const CRATE_DEFAULT_UNIT_OBJECT = 'CRATE_DEFAULT_UNIT_OBJECT';
-const INPUT_VALUE = 'INPUT_VALUE';
+const LEFT_UNIT_CLICK_ACTIVE = 'SWITCHING_TAGS/LEFT_UNIT_CLICK_ACTIVE';
+const RIGHT_UNIT_CLICK_ACTIVE = 'SWITCHING_TAGS/RIGHT_UNIT_CLICK_ACTIVE';
+const CRATE_DEFAULT_UNIT_OBJECT = 'SWITCHING_TAGS/CRATE_DEFAULT_UNIT_OBJECT';
+const INPUT_VALUE = 'SWITCHING_TAGS/INPUT_VALUE';
 const defaultObject = {
 	left: '%',
 	right: 'px',
@@ -10,9 +10,6 @@ const defaultObject = {
 };
 const initialState = {
 	availableUnits: ['%', 'px', 'em', 'rem', 'vw', 'vh', 'vmin', 'vmax'],
-	marginRight: {
-		...defaultObject,
-	},
 };
 
 export const switchingTagsReducer = (state = initialState, action) => {
@@ -21,7 +18,7 @@ export const switchingTagsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				[action.name]: {
-					...state.marginRight,
+					...state[action.name],
 					active: 'left',
 				},
 			};
@@ -29,7 +26,7 @@ export const switchingTagsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				[action.name]: {
-					...state.marginRight,
+					...state[action.name],
 					active: 'right',
 				},
 			};
@@ -37,7 +34,7 @@ export const switchingTagsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				[action.name]: {
-					...state.marginRight,
+					...state[action.name],
 					value: action.value,
 				},
 			};

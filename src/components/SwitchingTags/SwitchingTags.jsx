@@ -1,40 +1,41 @@
 import React from 'react';
 import s from './SwitchingTags.module.scss';
+import ContSwitchingUnit from './SwitchingUnit/ContSwitchingUnit';
 
 const SwitchingTags = (props) => {
 	const settings = props?.settings;
-	const active = settings?.active || 'left';
-	const left = settings?.left || '%';
-	const right = settings?.right || 'px';
-	const value = settings?.value ?? '';
-	const activeUnit = (settings && settings[settings.active]) || 'px';
+	const active = settings?.active;
+	const left = settings?.left;
+	const right = settings?.right;
 	return (
 		<div className={s.switcher}>
-			<button
+			<ContSwitchingUnit
 				name={props.name}
-				onClick={props.onLeftClick}
-				className={`${s.switcher__tag} ${s.switcher__tag_left} ${
-					active === 'left' ? s['switcher__tag-active'] : ''
-				}`}>
+				setSettings={props.setSettings}
+				settings={settings}
+				active={active}
+				onClick={props.onLeftTagClick}
+				side='left'>
 				{left}
-			</button>
+			</ContSwitchingUnit>
 			<input
 				type='text'
-				onKeyPress={props.onCenterKeyPress}
+				onKeyUp={props.onCenterKeyUp}
 				onClick={props.onCenterClick}
-				onChange={props.onChangehandler}
-				name={props.name}
+				onChange={props.onChangeHandler}
 				className={s.switcher__tag_center}
-				value={`${value}${activeUnit}`}
+				value={props.value}
+				ref={props.centerRef}
 			/>
-			<button
+			<ContSwitchingUnit
 				name={props.name}
-				onClick={props.onRightClick}
-				className={`${s.switcher__tag} ${s.switcher__tag_right} ${
-					active === 'right' ? s['switcher__tag-active'] : ''
-				}`}>
+				settings={settings}
+				setSettings={props.setSettings}
+				active={active}
+				onClick={props.onRightTagClick}
+				side='right'>
 				{right}
-			</button>
+			</ContSwitchingUnit>
 		</div>
 	);
 };

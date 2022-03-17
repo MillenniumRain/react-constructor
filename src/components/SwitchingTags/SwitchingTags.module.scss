@@ -1,31 +1,9 @@
-$background: #cccc;
+$background: #ccc;
 $bg_hover: #c5d15acc;
 
 .switcher {
 	display: flex;
 	height: 32px;
-	* {
-		background: $background;
-	}
-	&__tag {
-		&:hover {
-			cursor: pointer;
-			background: $bg_hover;
-		}
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 32px;
-		&_left {
-			border-radius: 50% 0% 0% 50%;
-		}
-		&_right {
-			border-radius: 0% 50% 50% 0%;
-		}
-		&-active {
-			background: $bg_hover;
-		}
-	}
 
 	&__tag_center {
 		text-align: center;
@@ -35,5 +13,6 @@ $bg_hover: #c5d15acc;
 		width: 45px;
 		border-left: 1px solid;
 		border-right: 1px solid;
+		background: $background;
 	}
 }

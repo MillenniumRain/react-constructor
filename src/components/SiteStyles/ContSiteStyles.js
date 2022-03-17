@@ -13,6 +13,7 @@ const ContSiteStyles = (props) => {
 	const onClickDeleteBlock = (e) => {
 		dispatch(deleteBlock());
 	};
+
 	return (
 		<SiteStyles
 			onClickCreateAfterBlock={onClickCreateAfterBlock}

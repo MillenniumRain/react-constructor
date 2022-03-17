@@ -1,9 +1,9 @@
 import './App.scss';
-import ContSiteStyles from './components/Settings/ContSiteStyles';
+import ContSiteStyles from './components/SiteStyles/ContSiteStyles';
 import ContSite from './components/Site/ContSite';
 function App() {
 	return (
-		<div>
+		<div className='constructor_container'>
 			<ContSiteStyles />
 			<ContSite />
 		</div>
