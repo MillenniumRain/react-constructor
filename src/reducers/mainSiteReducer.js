@@ -158,7 +158,6 @@ export const mainSiteReducer = (state = initialState, action) => {
 			const newStructure = JSON.parse(JSON.stringify(state.structure));
 			const { finded, parent, parentRow } = findBlock(state, newStructure);
 			path[path.length - 1] = maxPathInCurrentRow;
-			console.log(state.globalStyle);
 			parentRow.splice(parentRow.indexOf(finded) + 1, 0, {
 				path: path.join(':'),
 				type: 'div',

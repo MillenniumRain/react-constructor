@@ -1,0 +1,53 @@
+.palette {
+	width: 100%;
+	height: 100%;
+
+	border-radius: 50%;
+	border: 1px solid black;
+	display: flex;
+	overflow: hidden;
+	position: relative;
+
+	&__background {
+		content: '';
+		background: no-repeat url('./../../img/opacity.png');
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	&__main_color {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		border-radius: 50%;
+		&:hover::before {
+			content: '';
+			background: url('./../../img/pipette.png') center/50% no-repeat;
+			width: 100%;
+			height: 100%;
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 0;
+		}
+		&:hover::after {
+			content: '';
+			background: rgba(0, 0, 0, 0.15);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+		}
+	}
+}

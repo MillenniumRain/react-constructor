@@ -11,7 +11,7 @@ const SiteStyles = (props) => {
 			<button onClick={props.onClickDeleteBlock}>Удалить блок</button>
 			<ContSwitchingTags name='width' />
 			<ContSwitchingTags name='height' />
-			<ColorPalette />
+			<ColorPalette name='background' />
 		</div>
 	);
 };

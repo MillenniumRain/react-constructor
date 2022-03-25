@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Select } from '../../../сommon_components/Select/Select';
 import s from './SwitchingUnit.module.scss';
 
