@@ -9,22 +9,25 @@ const DragDrop = (props) => {
 	const [mouseDown, setMouseDown] = useState(false);
 
 	const checkAndSetCoords = (e) => {
-		let x = e.pageX - coords.parent.rect.left - Math.round(coords.drag.rect.width / 2);
-		let y = e.pageY - coords.parent.rect.top - Math.round(coords.drag.rect.height / 2);
+		const parent = dragParent?.current?.getBoundingClientRect();
+		const drag = dragBlock?.current?.getBoundingClientRect();
+
+		let x = e.pageX - parent.left - Math.round(drag.width / 2);
+		let y = e.pageY - parent.top - Math.round(drag.height / 2);
 		if (x < 0) {
 			x = 0;
 		}
-		if (x + coords.drag.rect.width > coords.parent.rect.width) {
-			x = coords.parent.rect.width - coords.drag.rect.width;
+		if (x + drag.width > parent.width) {
+			x = parent.width - drag.width;
 		}
 		if (y < 0) {
 			y = 0;
 		}
-		if (y + coords.drag.rect.height > coords.parent.rect.height) {
-			y = coords.parent.rect.height - coords.drag.rect.height;
+		if (y + drag.height > parent.height) {
+			y = parent.height - drag.height;
 		}
 
-		setCoords({ ...coords, drag: { ...coords.drag, x, y } });
+		setCoords({ parent: { rect: parent }, drag: { rect: drag, x, y } });
 	};
 	const onMouseMoveHandler = (e) => {
 		if (mouseDown) {
@@ -42,12 +45,12 @@ const DragDrop = (props) => {
 		setMouseDown(false);
 	};
 	useEffect(() => {
-		const parent = dragParent?.current;
-		const drag = dragBlock?.current;
+		const parent = dragParent?.current?.getBoundingClientRect();
+		const drag = dragBlock?.current?.getBoundingClientRect();
 
 		setCoords({
-			parent: { rect: parent.getBoundingClientRect() },
-			drag: { rect: drag.getBoundingClientRect(), x: 0, y: 0 },
+			parent: { rect: parent },
+			drag: { rect: drag, x: 0, y: 0 },
 		});
 		document.addEventListener('mouseup', onMouseUpHandler);
 		// document.addEventListener('mousemove', onMouseMoveHandler);

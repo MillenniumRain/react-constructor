@@ -71,7 +71,6 @@ const ContSwitchingTags = (props) => {
 		const root = e.target;
 		root.selectionEnd = value.length - unit.length;
 	};
-	console.log(`render>${props.name}`);
 	return (
 		<SwitchingTags
 			name={props.name}

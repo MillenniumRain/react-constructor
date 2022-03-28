@@ -9,6 +9,7 @@ const SwitchingTags = (props) => {
 	const right = settings?.right;
 	return (
 		<div className={s.switcher}>
+			<div className={s.switcher__name}>{props.name}</div>
 			<ContSwitchingUnit
 				name={props.name}
 				setSettings={props.setSettings}

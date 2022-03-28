@@ -37,7 +37,7 @@ const ContSite = (props) => {
 				{
 					key: val.path,
 					style: val?.style || {},
-					className: val?.className || '',
+					className: [val?.className, val?.crClassName].join(' ') || '',
 					onClick: (e) => onClickHandler(e, val),
 					onDoubleClick: (e) => onDblClickHandler(e, val),
 				},

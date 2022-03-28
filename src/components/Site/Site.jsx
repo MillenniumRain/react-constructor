@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import { createPortal } from 'react-dom';
 // import s from './Site.module.scss';
 
 const Site = (props) => {
-	return <>{props.children}</>;
+	return <React.Fragment>{props.children} </React.Fragment>;
 	// const [contentRef, setContentRef] = useState(null);
 	// let mountNode = contentRef?.contentWindow?.document?.body;
 

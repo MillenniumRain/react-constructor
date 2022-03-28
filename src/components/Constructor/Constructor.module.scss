@@ -1,0 +1,41 @@
+.settings {
+	background: #b0afaf;
+	padding: 10px;
+	// display: flex;
+	width: 40%;
+	overflow-x: hidden;
+	&__block {
+		display: flex;
+		align-items: center;
+		flex-wrap: nowrap;
+		justify-content: space-around;
+		// border: 1px solid #797878;
+		// padding: 3px 0 15px 0;
+		padding: 10px;
+		background: #b0b0b0;
+		margin-bottom: 5px;
+		box-shadow: inset 0px 0px 16px 5px rgba(0, 0, 0, 0.082);
+	}
+	&__line_block {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	&__line_block_name {
+		margin-right: 15px;
+	}
+}
+
+.header {
+	margin-bottom: 20px;
+}
+
+.header__button {
+	margin-right: 20px;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+.header__button:last-child {
+	margin-right: 0;
+}

@@ -1,4 +1,6 @@
 .palette {
+	display: inline-block;
+	position: relative;
 	&__button {
 		background: none;
 		width: 32px;

@@ -4,6 +4,7 @@ body {
 		'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	overflow: hidden;
 }
 
 code {
@@ -87,3 +88,10 @@ h6 {
 	font-weight: inherit;
 }
 /*-----------^ Обнуление ^---------*/
+
+.cr_active {
+	outline: 4px dashed darkcyan;
+}
+.cr_editable {
+	outline: 4px dashed darkorange;
+}

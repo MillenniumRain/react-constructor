@@ -1,8 +1,11 @@
 .constructor_container {
 	display: flex;
-	flex-direction: column;
+	// flex-direction: column;
 	height: 100vh;
 }
 .main {
+	width: 70%;
+	height: 100%;
+	background: #ccc;
 	overflow-y: auto;
 }

@@ -1,11 +1,11 @@
 import './App.scss';
-import ContSiteStyles from './components/SiteStyles/ContSiteStyles';
+import ContConstructor from './components/Constructor/ContConstructor';
 import ContSite from './components/Site/ContSite';
 function App() {
 	return (
 		<div className='constructor_container'>
-			<ContSiteStyles />
 			<ContSite />
+			<ContConstructor />
 		</div>
 	);
 }

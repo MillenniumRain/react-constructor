@@ -9,11 +9,18 @@ const Dropdown = (props) => {
 		}
 	};
 	useEffect(() => {
+		const dropdown = ref.current.getBoundingClientRect();
+		if (dropdown.left + dropdown.width > document.documentElement.clientWidth) {
+			ref.current.style.left =
+				document.documentElement.clientWidth - (dropdown.left + dropdown.width + 17) + 'px';
+		}
+
 		document.addEventListener('mousedown', handleClickOutside);
 		return () => {
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, []);
+
 	return (
 		props.isVisible && (
 			<div className={s.dropdown + ' ' + props.className} ref={ref}>

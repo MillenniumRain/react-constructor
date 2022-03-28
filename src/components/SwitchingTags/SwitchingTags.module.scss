@@ -4,6 +4,9 @@ $bg_hover: #c5d15acc;
 .switcher {
 	display: flex;
 	height: 32px;
+	width: min-content;
+	position: relative;
+	margin-top: 10px;
 
 	&__tag_center {
 		text-align: center;
@@ -14,5 +17,11 @@ $bg_hover: #c5d15acc;
 		border-left: 1px solid;
 		border-right: 1px solid;
 		background: $background;
+	}
+	&__name {
+		position: absolute;
+		top: -17px;
+		width: 100%;
+		text-align: center;
 	}
 }

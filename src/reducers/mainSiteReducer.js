@@ -19,12 +19,7 @@ const initialState = {
 			main: true,
 			className: 'main',
 			active: false,
-			style: {
-				width: '100%',
-				height: '100%',
-				background: '#ccc',
-				// minHeight: 'calc(100vh - 52px)',
-			},
+			style: {},
 			child: [
 				{
 					path: '1:1',
@@ -61,6 +56,24 @@ export const mainSiteReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_EDIT_MODE: {
 			if (!state.lastActive || state.lastActive.path.length === 1) return state;
+			if (action.flag) {
+				const newStructure = JSON.parse(JSON.stringify(state.structure));
+				toAll(state, newStructure, (block) => {
+					if (block?.crClassName) {
+						block.crClassName = block.crClassName.replace('cr_editable', '');
+						block.crClassName = block.crClassName.replace('cr_active', '');
+					}
+					if (block.path === state.lastActive.path) {
+						block.crClassName = (block.crClassName || '') + ' ' + 'cr_editable';
+					}
+				});
+
+				return {
+					...state,
+					structure: [...newStructure],
+					editMode: action.flag,
+				};
+			}
 			return {
 				...state,
 				editMode: action.flag,
@@ -68,20 +81,26 @@ export const mainSiteReducer = (state = initialState, action) => {
 		}
 
 		case ACTIVE_BLOCK: {
+			const newStructure = JSON.parse(JSON.stringify(state.structure));
+			toAll(state, newStructure, (block) => {
+				if (block?.crClassName) {
+					block.crClassName = block.crClassName.replace('cr_editable', '');
+					block.crClassName = block.crClassName.replace('cr_active', '');
+				}
+				if (block.path === action.blockLink.path) {
+					block.crClassName = (block.crClassName || '') + ' ' + 'cr_active';
+				}
+			});
+			let style = action.blockLink.style;
 			if (action.blockLink.path.length === 1) {
-				return {
-					...state,
-					lastActive: {
-						...action.blockLink,
-						style: {},
-					},
-				};
+				style = { ...state.globalStyle };
 			}
 			return {
 				...state,
+				structure: [...newStructure],
 				lastActive: action.blockLink,
 				globalStyle: {
-					...action.blockLink.style,
+					...style,
 				},
 			};
 		}
@@ -196,6 +215,15 @@ export const mainSiteReducer = (state = initialState, action) => {
 			return state;
 	}
 };
+function toAll(state, array, callback) {
+	for (let i = 0; i < array.length; i++) {
+		if (array[i]?.child.length > 0) {
+			toAll(state, array[i].child, callback);
+		}
+		callback && callback(array[i]);
+	}
+	return array;
+}
 function findBlock(state, array, parent = [], level = 0) {
 	const path = state.lastActive.path.split(':');
 	const pathLevels = path.length;
@@ -220,11 +248,10 @@ function findBlock(state, array, parent = [], level = 0) {
 		}
 	}
 }
-export const activeBlock = (blockLink, flag = false) => {
+export const activeBlock = (blockLink) => {
 	return {
 		type: ACTIVE_BLOCK,
 		blockLink,
-		flag,
 	};
 };
 

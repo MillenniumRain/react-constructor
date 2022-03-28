@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { createAfterBlock, createBlock, deleteBlock } from '../../reducers/mainSiteReducer';
-import SiteStyles from './SiteStyles';
-const ContSiteStyles = (props) => {
+import Constructor from './Constructor';
+const ContConstructor = (props) => {
 	const dispatch = useDispatch();
 	const onClickCreateBlock = (e) => {
 		dispatch(createBlock());
@@ -15,7 +15,7 @@ const ContSiteStyles = (props) => {
 	};
 
 	return (
-		<SiteStyles
+		<Constructor
 			onClickCreateAfterBlock={onClickCreateAfterBlock}
 			onClickDeleteBlock={onClickDeleteBlock}
 			onClickCreateBlock={onClickCreateBlock}
@@ -23,4 +23,4 @@ const ContSiteStyles = (props) => {
 	);
 };
 
-export default ContSiteStyles;
+export default ContConstructor;
