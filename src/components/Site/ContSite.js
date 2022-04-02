@@ -14,7 +14,6 @@ const ContSite = (props) => {
 		e.stopPropagation();
 		timeout = setTimeout(() => {
 			if (!prevent) {
-				console.log(val);
 				dispatch(activeBlock(val));
 				dispatch(setEditMode(false));
 			}

@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import s from './Dropdown.module.scss';
 
+// className={s.palette__dropdown}
+// onClickOutside={onClickOutside}
+// isVisible={isVisible}
 const Dropdown = (props) => {
 	const ref = useRef();
 	const handleClickOutside = (e) => {
@@ -9,8 +12,8 @@ const Dropdown = (props) => {
 		}
 	};
 	useEffect(() => {
-		const dropdown = ref.current.getBoundingClientRect();
-		if (dropdown.left + dropdown.width > document.documentElement.clientWidth) {
+		const dropdown = ref?.current?.getBoundingClientRect();
+		if (dropdown && dropdown.left + dropdown.width > document.documentElement.clientWidth) {
 			ref.current.style.left =
 				document.documentElement.clientWidth - (dropdown.left + dropdown.width + 17) + 'px';
 		}

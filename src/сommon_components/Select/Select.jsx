@@ -2,6 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 import s from './Select.module.scss';
 
+// opened={true}
+// values={props.availableUnits}
+// onClickOption={props.onClickOption}
+// onClickOutside={props.onClickOutside}
+// defaultValue={props.children}
 export const Select = (props) => {
 	const uniqueValues = props.values?.filter((value, index, self) => self.indexOf(value) === index);
 	const [isVisible, setVisible] = useState(props.opened || false);
@@ -17,14 +22,16 @@ export const Select = (props) => {
 		setVisible(true);
 	};
 	const handleClickOutside = (e) => {
-		props.onClickOutside && props?.onClickOutside(e);
+		props.onClickOutside && props.onClickOutside(e);
+		// setVisible(false);
 	};
 
 	return (
-		<div className={s.select}>
+		<div className={[s.select, props.className].join(' ')}>
 			<div className={s.select__field} onClick={onClickHandler}>
-				{value} ⇩
+				<span style={value === props.defaultValue ? { color: '#777676' } : {}}>{value}</span> <span>⇩</span>
 			</div>
+
 			<Dropdown isVisible={isVisible} className={s.select__dropdown} onClickOutside={handleClickOutside}>
 				{uniqueValues.map((value) => {
 					return (

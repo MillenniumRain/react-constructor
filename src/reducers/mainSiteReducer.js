@@ -18,6 +18,7 @@ const initialState = {
 			type: 'div',
 			main: true,
 			className: 'main',
+			crClassName: '',
 			active: false,
 			style: {},
 			child: [
@@ -25,6 +26,7 @@ const initialState = {
 					path: '1:1',
 					type: 'div',
 					className: 'child1',
+					crClassName: '',
 					edit: false,
 					active: false,
 					style: {
@@ -38,6 +40,7 @@ const initialState = {
 					path: '1:2',
 					type: 'div',
 					className: 'child2',
+					crClassName: '',
 					active: false,
 					edit: false,
 					style: {
@@ -88,7 +91,7 @@ export const mainSiteReducer = (state = initialState, action) => {
 					block.crClassName = block.crClassName.replace('cr_active', '');
 				}
 				if (block.path === action.blockLink.path) {
-					block.crClassName = (block.crClassName || '') + ' ' + 'cr_active';
+					block.crClassName = (block.crClassName || '') + 'cr_active';
 				}
 			});
 			let style = action.blockLink.style;
@@ -148,7 +151,7 @@ export const mainSiteReducer = (state = initialState, action) => {
 			path.push(`${maxPathInCurrentRow}`);
 			finded.child.push({
 				path: path.join(':'),
-				type: 'div',
+				type: action.block_type || 'div',
 				className: 'child3',
 				active: false,
 				edit: false,
@@ -179,7 +182,7 @@ export const mainSiteReducer = (state = initialState, action) => {
 			path[path.length - 1] = maxPathInCurrentRow;
 			parentRow.splice(parentRow.indexOf(finded) + 1, 0, {
 				path: path.join(':'),
-				type: 'div',
+				type: action.block_type || 'div',
 				className: 'childAfter',
 				active: false,
 				edit: false,
@@ -191,8 +194,6 @@ export const mainSiteReducer = (state = initialState, action) => {
 				},
 				child: [],
 			});
-
-			// finded.child.push();
 
 			return {
 				...state,
@@ -255,14 +256,16 @@ export const activeBlock = (blockLink) => {
 	};
 };
 
-export const createBlock = () => {
+export const createBlock = (block_type) => {
 	return {
 		type: CREATE_BLOCK,
+		block_type,
 	};
 };
-export const createAfterBlock = () => {
+export const createAfterBlock = (block_type) => {
 	return {
 		type: CREATE_AFTER_BLOCK,
+		block_type,
 	};
 };
 

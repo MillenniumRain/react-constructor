@@ -90,8 +90,10 @@ h6 {
 /*-----------^ Обнуление ^---------*/
 
 .cr_active {
-	outline: 4px dashed darkcyan;
+	outline: 3px inset darkcyan;
+	outline-offset: -3px;
 }
 .cr_editable {
-	outline: 4px dashed darkorange;
+	outline: 3px inset darkorange;
+	outline-offset: -3px;
 }

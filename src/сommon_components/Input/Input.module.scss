@@ -1,0 +1,33 @@
+.input {
+	margin-bottom: 10px;
+	position: relative;
+	margin-top: 10px;
+	&__input {
+		padding: 5px 10px;
+		height: 32px;
+		background: #ccc;
+	}
+
+	&__label {
+		position: absolute;
+		top: 0;
+
+		left: 10px;
+		height: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: rgb(119, 118, 118);
+		transition: left 300ms, top 300ms;
+		&:hover {
+			cursor: text;
+		}
+	}
+
+	&__input:not(:placeholder-shown) + &__label {
+		color: rgb(0, 0, 0);
+		top: -25px;
+		left: 0;
+		font-size: 12px;
+	}
+}

@@ -1,0 +1,15 @@
+.create_block {
+	margin-bottom: 20px;
+	&__button {
+		margin-right: 20px;
+		border: 1px solid black;
+		padding: 5px;
+	}
+	&__button:last-child {
+		margin-right: 0;
+	}
+	&__select {
+		min-width: 80px;
+		margin-right: 10px;
+	}
+}

@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Dropdown from '../Dropdown/Dropdown';
+import Dropdown from '../../сommon_components/Dropdown/Dropdown';
 import Palette from '../Palette/Palette';
 import s from './ColorPalette.module.scss';
 import bgGradiend from './../../img/bgGradient.png';
-import DragDrop from '../DragDrop/DragDrop';
+import DragDrop from '../../сommon_components/DragDrop/DragDrop';
 import { useDispatch } from 'react-redux';
 import { setGobalStyle, setStyleToBlock } from '../../reducers/mainSiteReducer';
 const ColorPalette = (props) => {
@@ -111,7 +111,10 @@ const ColorPalette = (props) => {
 	const currentColor = `rgba(${hsvConvetToRgb(hue.value, sv.valueS, sv.valueV).join(',')},${alpha.value})`;
 	return (
 		<div className={s.palette}>
-			<button disabled={isVisible} onClick={onClickHandler} className={s.palette__button}>
+			<button
+				disabled={isVisible}
+				onClick={onClickHandler}
+				className={[s.palette__button, props.className].join(' ')}>
 				<Palette color={currentColor} />
 			</button>
 			{isVisible && (
