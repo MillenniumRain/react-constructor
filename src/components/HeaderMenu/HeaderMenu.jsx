@@ -39,7 +39,11 @@ const HeaderMenu = ({
 				<Popup onClose={onClosePopup}>
 					<div className={s.save_block}>
 						<div className={s.save_block__buttons}>
-							<Button onClick={onClickSaveAsPopup}>Сохранить как</Button>
+							{isVisibleCreate ? (
+								<Button onClick={onClickSaveName}>Сохранить</Button>
+							) : (
+								<Button onClick={onClickSaveAsPopup}>Сохранить как</Button>
+							)}
 						</div>
 						<div className={s.save_block__list}>
 							{isVisibleCreate && (
