@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createAfterBlock, createBlock, deleteBlock } from '../../reducers/mainSiteReducer';
+import {
+	createAfterBlock,
+	createBlock,
+	deleteBlock,
+	setGobalStyle,
+	setStyleToBlock,
+	setTextToBlock,
+} from '../../store/actions/actions';
 import CreateBlock from './CreateBlock';
 
 const ContCreateBlock = (props) => {
@@ -35,9 +42,14 @@ const ContCreateBlock = (props) => {
 	const onClickSelect = (e, val) => {
 		setTag(val);
 	};
+	const onClickEditBlock = () => {
+		dispatch(setStyleToBlock(true));
+		dispatch(setTextToBlock(true));
+	};
 	return (
 		<CreateBlock
 			tag={tag}
+			onClickEditBlock={onClickEditBlock}
 			onClickCreateAfterBlock={onClickCreateAfterBlock}
 			onClickDeleteBlock={onClickDeleteBlock}
 			onClickCreateBlock={onClickCreateBlock}

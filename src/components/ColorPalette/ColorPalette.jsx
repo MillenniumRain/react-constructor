@@ -5,7 +5,7 @@ import s from './ColorPalette.module.scss';
 import bgGradiend from './../../img/bgGradient.png';
 import DragDrop from '../../сommon_components/DragDrop/DragDrop';
 import { useDispatch } from 'react-redux';
-import { setGobalStyle, setStyleToBlock } from '../../reducers/mainSiteReducer';
+import { setGobalStyle, setStyleToBlock } from '../../store/actions/actions';
 const ColorPalette = (props) => {
 	const dispatch = useDispatch();
 	const [isVisible, setVisible] = useState(false);
@@ -118,7 +118,11 @@ const ColorPalette = (props) => {
 				<Palette color={currentColor} />
 			</button>
 			{isVisible && (
-				<Dropdown className={s.palette__dropdown} onClickOutside={onClickOutside} isVisible={isVisible}>
+				<Dropdown
+					remove={true}
+					className={s.palette__dropdown}
+					onClickOutside={onClickOutside}
+					isVisible={isVisible}>
 					<div className={s.palette__container}>
 						{/* основной блок*/}
 						<DragDrop

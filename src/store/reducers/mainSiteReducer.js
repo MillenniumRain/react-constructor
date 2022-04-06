@@ -1,17 +1,30 @@
-const ACTIVE_BLOCK = 'MAIN_SITE/ACTIVE_BLOCK';
-const CREATE_BLOCK = 'MAIN_SITE/CREATE_BLOCK';
-const CREATE_AFTER_BLOCK = 'MAIN_SITE/CREATE_AFTER_BLOCK';
-const DELETE_BLOCK = 'MAIN_SITE/DELETE_BLOCK';
-const SET_GLOBAL_STYLE = 'MAIN_SITE/SET_GLOBAL_STYLE';
-const SET_EDIT_MODE = 'MAIN_SITE/SET_EDIT_MODE';
-const SET_STYLE_TO_TAG = 'MAIN_SITE/SET_STYLE_TO_TAG';
+import { dataAPI, myDOM } from '../../lib/utility';
+import {
+	ACTIVE_BLOCK,
+	CREATE_AFTER_BLOCK,
+	CREATE_BLOCK,
+	DELETE_BLOCK,
+	GET_SAVED_DATA,
+	LOAD_SAVED_DATA,
+	REMOVE_GLOBAL_STYLE,
+	REMOVE_SAVED_DATA,
+	SAVE_SITE,
+	SET_EDIT_MODE,
+	SET_GLOBAL_STYLE,
+	SET_GLOBAL_TEXT,
+	SET_STYLE_TO_TAG,
+	SET_TEXT,
+} from '../constants/costants';
+
 const initialState = {
 	lastActive: null,
 	maxOnPathLevel: [1, 2],
 	editMode: false,
 	editing: false,
 	globalStyle: {},
+	globalText: '',
 	availableUnits: ['%', 'px', 'em', 'rem', 'vw', 'vh', 'vmin', 'vmax'],
+	savedData: [],
 	structure: [
 		{
 			path: '1',
@@ -19,34 +32,21 @@ const initialState = {
 			main: true,
 			className: 'main',
 			crClassName: '',
+			text: '',
 			active: false,
 			style: {},
 			child: [
-				{
-					path: '1:1',
-					type: 'div',
-					className: 'child1',
-					crClassName: '',
-					edit: false,
-					active: false,
-					style: {
-						background: '#c3c',
-						height: '100px',
-						width: '50px',
-					},
-					child: [],
-				},
 				{
 					path: '1:2',
 					type: 'div',
 					className: 'child2',
 					crClassName: '',
+					text: 'Привет',
 					active: false,
 					edit: false,
 					style: {
 						background: '#aac',
 						height: '50px',
-						width: '50px',
 					},
 					child: [],
 				},
@@ -61,13 +61,16 @@ export const mainSiteReducer = (state = initialState, action) => {
 			if (!state.lastActive || state.lastActive.path.length === 1) return state;
 			if (action.flag) {
 				const newStructure = JSON.parse(JSON.stringify(state.structure));
-				toAll(state, newStructure, (block) => {
+				myDOM.toAll(state, newStructure, (block) => {
 					if (block?.crClassName) {
 						block.crClassName = block.crClassName.replace('cr_editable', '');
 						block.crClassName = block.crClassName.replace('cr_active', '');
 					}
 					if (block.path === state.lastActive.path) {
-						block.crClassName = (block.crClassName || '') + ' ' + 'cr_editable';
+						console.log(block.crClassName);
+						block.crClassName = [block.crClassName, 'cr_editable'].join(' ');
+
+						state.lastActive = block;
 					}
 				});
 
@@ -85,13 +88,14 @@ export const mainSiteReducer = (state = initialState, action) => {
 
 		case ACTIVE_BLOCK: {
 			const newStructure = JSON.parse(JSON.stringify(state.structure));
-			toAll(state, newStructure, (block) => {
+			myDOM.toAll(state, newStructure, (block) => {
 				if (block?.crClassName) {
 					block.crClassName = block.crClassName.replace('cr_editable', '');
 					block.crClassName = block.crClassName.replace('cr_active', '');
 				}
 				if (block.path === action.blockLink.path) {
-					block.crClassName = (block.crClassName || '') + 'cr_active';
+					block.crClassName = [block.crClassName || null, 'cr_active'].join(' ');
+					state.lastActive = block;
 				}
 			});
 			let style = action.blockLink.style;
@@ -101,28 +105,56 @@ export const mainSiteReducer = (state = initialState, action) => {
 			return {
 				...state,
 				structure: [...newStructure],
-				lastActive: action.blockLink,
 				globalStyle: {
 					...style,
 				},
 			};
 		}
 
-		case SET_STYLE_TO_TAG: {
-			if (!state.lastActive || state.lastActive.path.length === 1) return state;
-			if (!state.editMode) return state;
-			let newStructure = state.structure;
-
-			newStructure = JSON.parse(JSON.stringify(state.structure));
-			const { finded } = findBlock(state, newStructure);
-			finded.style = {
-				...finded.style,
-				...state.globalStyle,
+		case SET_GLOBAL_TEXT: {
+			console.log(action);
+			return {
+				...state,
+				globalText: action.text,
 			};
+		}
+		case SET_TEXT: {
+			if (!state.lastActive) return state;
+			if (!state.editMode && !action.flag) return state;
+
+			let newStructure = JSON.parse(JSON.stringify(state.structure));
+			const { finded } = myDOM.findBlock(state, newStructure);
+			finded.text = state.globalText;
+			state.lastActive = finded;
 
 			return {
 				...state,
 				structure: [...newStructure],
+			};
+		}
+		case SET_STYLE_TO_TAG: {
+			if (!state.lastActive || state.lastActive.path.length === 1) return state;
+			if (!state.editMode && !action.flag) return state;
+
+			let newStructure = JSON.parse(JSON.stringify(state.structure));
+			const { finded } = myDOM.findBlock(state, newStructure);
+			finded.style = {
+				// ...finded.style,
+				...state.globalStyle,
+			};
+
+			state.lastActive = finded;
+			return {
+				...state,
+				structure: [...newStructure],
+			};
+		}
+		case REMOVE_GLOBAL_STYLE: {
+			const style = { ...state.globalStyle };
+			delete style[action.name];
+			return {
+				...state,
+				globalStyle: style,
 			};
 		}
 		case SET_GLOBAL_STYLE: {
@@ -146,13 +178,14 @@ export const mainSiteReducer = (state = initialState, action) => {
 			} else copyWithNewLevel.push(maxPathInCurrentRow);
 
 			const newStructure = JSON.parse(JSON.stringify(state.structure));
-			const { finded } = findBlock(state, newStructure);
+			const { finded } = myDOM.findBlock(state, newStructure);
 
 			path.push(`${maxPathInCurrentRow}`);
 			finded.child.push({
 				path: path.join(':'),
 				type: action.block_type || 'div',
 				className: 'child3',
+				text: '',
 				active: false,
 				edit: false,
 				style: {
@@ -178,12 +211,13 @@ export const mainSiteReducer = (state = initialState, action) => {
 			copyWithNewLevel[path.length - 1] = maxPathInCurrentRow;
 
 			const newStructure = JSON.parse(JSON.stringify(state.structure));
-			const { finded, parent, parentRow } = findBlock(state, newStructure);
+			const { finded, parent, parentRow } = myDOM.findBlock(state, newStructure);
 			path[path.length - 1] = maxPathInCurrentRow;
 			parentRow.splice(parentRow.indexOf(finded) + 1, 0, {
 				path: path.join(':'),
 				type: action.block_type || 'div',
 				className: 'childAfter',
+				text: '',
 				active: false,
 				edit: false,
 				style: {
@@ -204,7 +238,7 @@ export const mainSiteReducer = (state = initialState, action) => {
 		case DELETE_BLOCK: {
 			if (!state.lastActive || state.lastActive.path.length === 1) return state;
 			const newStructure = JSON.parse(JSON.stringify(state.structure));
-			const { finded, parent, parentRow } = findBlock(state, newStructure);
+			const { finded, parent, parentRow } = myDOM.findBlock(state, newStructure);
 			parentRow.splice(parentRow.indexOf(finded), 1);
 			return {
 				...state,
@@ -212,82 +246,32 @@ export const mainSiteReducer = (state = initialState, action) => {
 				lastActive: null,
 			};
 		}
+		case SAVE_SITE: {
+			return {
+				...state,
+				savedData: dataAPI.saveLocalStorage(state, action.name),
+			};
+		}
+		case GET_SAVED_DATA: {
+			return {
+				...state,
+				savedData: dataAPI.getLocalStorage(),
+			};
+		}
+		case REMOVE_SAVED_DATA: {
+			const data = dataAPI.getLocalStorage();
+			let newData;
+			if (data) {
+				newData = data.filter((val) => !(val.name === action.name && val.date === action.date));
+			}
+			dataAPI.setLocalStorage(newData);
+			return { ...state, savedData: newData };
+		}
+		case LOAD_SAVED_DATA: {
+			const selected = state.savedData.find((val) => val.name === action.name && val.date === action.date);
+			return { ...state, ...selected.state };
+		}
 		default:
 			return state;
 	}
-};
-function toAll(state, array, callback) {
-	for (let i = 0; i < array.length; i++) {
-		if (array[i]?.child.length > 0) {
-			toAll(state, array[i].child, callback);
-		}
-		callback && callback(array[i]);
-	}
-	return array;
-}
-function findBlock(state, array, parent = [], level = 0) {
-	const path = state.lastActive.path.split(':');
-	const pathLevels = path.length;
-	for (let i = 0; i < array.length; i++) {
-		if (path.slice().join(':') === '1') {
-			return {
-				finded: array[i],
-				parent: array,
-				parentRow: null,
-			};
-		}
-
-		if (array[i].path.split(':')[level] === path[level]) {
-			if (level >= pathLevels - 1) {
-				return {
-					finded: array[i],
-					parent: parent || null,
-					parentRow: array || null,
-				};
-			}
-			return findBlock(state, array[i].child, array[i], level + 1);
-		}
-	}
-}
-export const activeBlock = (blockLink) => {
-	return {
-		type: ACTIVE_BLOCK,
-		blockLink,
-	};
-};
-
-export const createBlock = (block_type) => {
-	return {
-		type: CREATE_BLOCK,
-		block_type,
-	};
-};
-export const createAfterBlock = (block_type) => {
-	return {
-		type: CREATE_AFTER_BLOCK,
-		block_type,
-	};
-};
-
-export const deleteBlock = () => {
-	return {
-		type: DELETE_BLOCK,
-	};
-};
-export const setGobalStyle = (style) => {
-	return {
-		type: SET_GLOBAL_STYLE,
-		style,
-	};
-};
-export const setEditMode = (flag) => {
-	return {
-		type: SET_EDIT_MODE,
-		flag,
-	};
-};
-export const setStyleToBlock = () => {
-	return {
-		type: SET_STYLE_TO_TAG,
-	};
 };

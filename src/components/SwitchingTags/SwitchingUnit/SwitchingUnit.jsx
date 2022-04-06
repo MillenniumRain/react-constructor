@@ -11,6 +11,7 @@ const SwitchingUnit = (props) => {
 	if (props.edit) {
 		return (
 			<Select
+				remove={false}
 				opened={true}
 				values={props.availableUnits}
 				onClickOption={props.onClickOption}

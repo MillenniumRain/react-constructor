@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import s from './Dropdown.module.scss';
 
-// className={s.palette__dropdown}
-// onClickOutside={onClickOutside}
-// isVisible={isVisible}
+// className = string
+// onClickOutsid e= handler
+// isVisible = boolean
+// remove = boolean
 const Dropdown = (props) => {
 	const ref = useRef();
 	const handleClickOutside = (e) => {
@@ -18,9 +19,9 @@ const Dropdown = (props) => {
 				document.documentElement.clientWidth - (dropdown.left + dropdown.width + 17) + 'px';
 		}
 
-		document.addEventListener('mousedown', handleClickOutside);
+		props.remove && document.addEventListener('mousedown', handleClickOutside);
 		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
+			props.remove && document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, []);
 

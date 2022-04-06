@@ -1,7 +1,6 @@
-import React, { createElement, useCallback } from 'react';
+import React, { createElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
-import { activeBlock, setEditMode } from '../../reducers/mainSiteReducer';
+import { activeBlock, setEditMode } from '../../store/actions/actions';
 import Site from './Site';
 
 const ContSite = (props) => {
@@ -40,11 +39,11 @@ const ContSite = (props) => {
 					onClick: (e) => onClickHandler(e, val),
 					onDoubleClick: (e) => onDblClickHandler(e, val),
 				},
-				recursionMap(val.child)
+				recursionMap(val.child),
+				val.text
 			);
 		});
 	};
-	// return <Site>Привет</Site>;
 	return <Site>{recursionMap(structure)}</Site>;
 };
 

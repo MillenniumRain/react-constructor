@@ -10,12 +10,14 @@ const FontBlock = (props) => {
 			<div className={s.input__main_group}>
 				<Input
 					placeholder='Font-family'
+					className={s.input}
 					value={props.style['fontFamily']}
 					onChange={(e) => props.onChange(e, 'fontFamily')}
 				/>
 				<Input
 					type='text'
 					placeholder='Font-size'
+					className={s.input}
 					value={props.style['fontSize']}
 					onChange={(e) => props.onChange(e, 'fontSize')}
 				/>
@@ -45,10 +47,17 @@ const FontBlock = (props) => {
 					onClickOption={(e, value) => props.onChange(e, 'textTransform', value)}
 					defaultValue={'Text-transform'}
 				/>
+				<Select
+					className={s.input__select}
+					values={props.values['textAlign']}
+					onClickOption={(e, value) => props.onChange(e, 'textAlign', value)}
+					defaultValue={'Text-align'}
+				/>
 
 				<Input
 					type='text'
 					placeholder='Line-height'
+					className={s.input}
 					value={props.style['lineHeight']}
 					onChange={(e) => props.onChange(e, 'lineHeight')}
 				/>

@@ -14,7 +14,7 @@ const Input = (props) => {
 				{...newProps}
 				type='text'
 				id={id}
-				className={s.input__input}
+				className={[s.input__input, props.className].join(' ')}
 				value={props.value}
 				onChange={props.onChange}
 			/>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGobalStyle } from '../../reducers/mainSiteReducer';
+import { setGobalStyle, setStyleToBlock } from '../../store/actions/actions';
 import FontBlock from './FontBlock';
 
 const ContFontBlock = (props) => {
@@ -41,6 +41,7 @@ const ContFontBlock = (props) => {
 			'revert',
 			'unset',
 		],
+		textAlign: ['left', 'right', 'center', 'justify', 'start', 'end', 'match-parent', 'inherit'],
 	};
 	const [style, setStyle] = useState({
 		fontFamily: '',
@@ -57,6 +58,7 @@ const ContFontBlock = (props) => {
 		const currentStyle = { [name]: value || e.target.value };
 		setStyle({ ...style, ...currentStyle });
 		dispatch(setGobalStyle(currentStyle));
+		dispatch(setStyleToBlock());
 	};
 	useEffect(() => {
 		setStyle({ ...style, color });

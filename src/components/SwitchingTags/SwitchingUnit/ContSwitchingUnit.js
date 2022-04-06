@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGobalStyle, setStyleToBlock } from '../../../reducers/mainSiteReducer';
+import { setGobalStyle, setStyleToBlock } from '../../../store/actions/actions';
 import SwitchingUnit from './SwitchingUnit';
 
 const ContSwitchingUnit = (props) => {
@@ -13,7 +13,6 @@ const ContSwitchingUnit = (props) => {
 	};
 
 	const onClickOption = (e, value) => {
-		console.log('onClickOption', value);
 		props.setSettings({
 			...props.settings,
 			[props.side]: value,

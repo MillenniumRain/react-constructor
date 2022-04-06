@@ -1,25 +1,29 @@
 import React from 'react';
+import Button from '../../сommon_components/Button/Button';
 import { Select } from '../../сommon_components/Select/Select';
 import s from './CreateBlock.module.scss';
 
-const CreateBlock = (props) => {
+const CreateBlock = ({
+	values,
+	tag,
+	onClickSelect,
+	onClickCreateBlock,
+	onClickCreateAfterBlock,
+	onClickEditBlock,
+	onClickDeleteBlock,
+}) => {
 	return (
 		<div className={s.create_block}>
 			<Select
-				values={props.values}
+				values={values}
 				className={s.create_block__select}
-				defaultValue={props.tag}
-				onClickOption={props.onClickSelect}
+				defaultValue={tag}
+				onClickOption={onClickSelect}
 			/>
-			<button className={s.create_block__button} onClick={props.onClickCreateBlock}>
-				Создать блок
-			</button>
-			<button className={s.create_block__button} onClick={props.onClickCreateAfterBlock}>
-				Создать после блока
-			</button>
-			<button className={s.create_block__button} onClick={props.onClickDeleteBlock}>
-				Удалить блок
-			</button>
+			<Button onClick={onClickCreateBlock}>Создать</Button>
+			<Button onClick={onClickCreateAfterBlock}>Создать после</Button>
+			<Button onClick={onClickEditBlock}>Изменить</Button>
+			<Button onClick={onClickDeleteBlock}>Удалить</Button>
 		</div>
 	);
 };

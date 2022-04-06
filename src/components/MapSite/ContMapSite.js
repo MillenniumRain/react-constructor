@@ -1,6 +1,6 @@
 import React, { createElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { activeBlock, setEditMode } from '../../reducers/mainSiteReducer';
+import { activeBlock, setEditMode } from '../../store/actions/actions';
 import s from './MapSite.module.scss';
 import MapSite from './MapSite';
 

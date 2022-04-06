@@ -3,7 +3,8 @@
 	&__button {
 		margin-right: 20px;
 		border: 1px solid black;
-		padding: 5px;
+		padding: 7px;
+		height: 32px;
 	}
 	&__button:last-child {
 		margin-right: 0;
@@ -11,5 +12,6 @@
 	&__select {
 		min-width: 80px;
 		margin-right: 10px;
+		margin-bottom: 10px;
 	}
 }

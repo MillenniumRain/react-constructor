@@ -1,4 +1,5 @@
 .input {
+	// margin-bottom: 10px;
 	&__container {
 		width: 100%;
 	}
@@ -38,19 +39,12 @@
 		display: inline;
 	}
 	&__select {
-		min-width: 120px;
+		width: 163px;
+		margin: 10px 0;
 	}
-	&__select_block {
-		// display: flex;
-		// justify-content: center;
-		// flex-direction: column;
-		// align-items: center;
-		// position: relative;
-	}
+
 	&__select_name {
-		// position: absolute;
 		color: black;
-		// top: -25px;
 		top: 0;
 		font-size: 12px;
 	}

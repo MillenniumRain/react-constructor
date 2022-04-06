@@ -1,0 +1,10 @@
+.button {
+	// position: relative;
+	margin-right: 20px;
+	border: 1px solid black;
+	padding: 7px;
+	height: 32px;
+	&:last-child {
+		margin-right: 0;
+	}
+}

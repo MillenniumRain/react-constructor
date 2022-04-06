@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGobalStyle, setStyleToBlock } from '../../reducers/mainSiteReducer';
+import { removeGobalStyle, setGobalStyle, setStyleToBlock } from '../../store/actions/actions';
 import SwitchingTags from './SwitchingTags';
 const ContSwitchingTags = (props) => {
 	const dispatch = useDispatch();
@@ -8,29 +8,33 @@ const ContSwitchingTags = (props) => {
 	const defaultSettings = {
 		left: '%',
 		right: 'px',
-		value: lastActiveStyle?.style[props.name] || 0,
+		value: lastActiveStyle?.style[props.name] || '',
 		active: 'right',
 	};
 
 	const [settings, setSettings] = useState(defaultSettings);
 	let unit = settings[settings.active];
 	let cleanValue = settings.value;
-	let value = cleanValue + unit;
+	let value = cleanValue ? cleanValue + unit : '';
 	useEffect(() => {
-		if (!lastActiveStyle?.style[props.name]) return;
-		const style = lastActiveStyle.style[props.name];
-		const valUnit = style?.replace(/[0-9]/g, '');
-		const valDig = style?.replace(/[^0-9]/g, '');
+		if (!lastActiveStyle) return;
 		let active = defaultSettings.active;
 		let left = defaultSettings.left;
-		if (defaultSettings.left === valUnit) {
-			active = 'left';
-		} else if (defaultSettings.right === valUnit) {
-			active = 'right';
-		} else {
-			left = valUnit;
-			active = 'left';
+		let valDig = '';
+		if (lastActiveStyle?.style[props.name]) {
+			const style = lastActiveStyle.style[props.name];
+			const valUnit = style?.replace(/[0-9]/g, '');
+			valDig = style?.replace(/[^0-9]/g, '');
+			if (defaultSettings.left === valUnit) {
+				active = 'left';
+			} else if (defaultSettings.right === valUnit) {
+				active = 'right';
+			} else {
+				left = valUnit;
+				active = 'left';
+			}
 		}
+
 		setSettings({
 			left: left,
 			right: defaultSettings.right,
@@ -58,7 +62,14 @@ const ContSwitchingTags = (props) => {
 	const onChangeHandler = (e) => {
 		const onlyDigits = e.target.value.replace(/[^0-9]/g, '');
 		setSettings({ ...settings, value: onlyDigits });
-		dispatch(setGobalStyle({ [props.name]: onlyDigits + unit }));
+
+		const value = onlyDigits ? onlyDigits + unit : '';
+		console.log(value);
+		if (value) {
+			dispatch(setGobalStyle({ [props.name]: value }));
+		} else {
+			dispatch(removeGobalStyle(props.name));
+		}
 		dispatch(setStyleToBlock());
 	};
 	const onCenterClick = (e) => {

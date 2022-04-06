@@ -1,5 +1,5 @@
-$background: #ccc;
-$bg_hover: #c5d15acc;
+$background: #bfbfbf;
+$bg_hover: #a2bdf0;
 
 .switcher__tag {
 	&:hover {
@@ -12,6 +12,7 @@ $bg_hover: #c5d15acc;
 	width: 32px;
 	&_left {
 		background: $background;
+		background: #bfbfbf;
 		border-radius: 50% 0% 0% 50%;
 	}
 	&_right {
