@@ -21,6 +21,7 @@ const ContSite = (props) => {
 
 	const onDblClickHandler = (e, val) => {
 		console.log(val);
+		e.preventDefault();
 		e.stopPropagation();
 		clearTimeout(timeout);
 		prevent = true;

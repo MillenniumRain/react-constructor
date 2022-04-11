@@ -41,4 +41,26 @@
 			box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.25);
 		}
 	}
+
+	&__delete {
+		cursor: pointer;
+		display: none;
+		background: #ccc;
+		color: darkred;
+		position: absolute;
+		height: 100%;
+		width: 30px;
+		justify-content: center;
+		align-items: center;
+		z-index: 1;
+		padding: 7px;
+		box-shadow: 5px 0px 5px -2px rgba(0, 0, 0, 0.2);
+		&:hover {
+			background: #bfbfbf;
+		}
+	}
+	&:hover &__delete {
+		display: block;
+		right: -30px;
+	}
 }

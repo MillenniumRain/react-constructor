@@ -1,15 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import s from './Dropdown.module.scss';
 
-// className = string
-// onClickOutsid e= handler
-// isVisible = boolean
-// remove = boolean
-const Dropdown = (props) => {
+const Dropdown = ({ onClickOutside, remove, children, className }) => {
 	const ref = useRef();
 	const handleClickOutside = (e) => {
 		if (!ref?.current?.contains(e.target)) {
-			props.onClickOutside && props.onClickOutside(e);
+			onClickOutside && onClickOutside(e);
 		}
 	};
 	useEffect(() => {
@@ -19,18 +15,16 @@ const Dropdown = (props) => {
 				document.documentElement.clientWidth - (dropdown.left + dropdown.width + 17) + 'px';
 		}
 
-		props.remove && document.addEventListener('mousedown', handleClickOutside);
+		remove && document.addEventListener('mousedown', handleClickOutside);
 		return () => {
-			props.remove && document.removeEventListener('mousedown', handleClickOutside);
+			remove && document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, []);
 
 	return (
-		props.isVisible && (
-			<div className={s.dropdown + ' ' + props.className} ref={ref}>
-				{props.children}
-			</div>
-		)
+		<div className={s.dropdown + ' ' + className} ref={ref}>
+			{children}
+		</div>
 	);
 };
 

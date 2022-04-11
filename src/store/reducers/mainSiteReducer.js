@@ -45,7 +45,7 @@ const initialState = {
 					active: false,
 					edit: false,
 					style: {
-						background: '#aac',
+						backgroundColor: '#aac',
 						height: '50px',
 					},
 					child: [],
@@ -67,7 +67,6 @@ export const mainSiteReducer = (state = initialState, action) => {
 						block.crClassName = block.crClassName.replace('cr_active', '');
 					}
 					if (block.path === state.lastActive.path) {
-						console.log(block.crClassName);
 						block.crClassName = [block.crClassName, 'cr_editable'].join(' ');
 
 						state.lastActive = block;
@@ -105,6 +104,7 @@ export const mainSiteReducer = (state = initialState, action) => {
 			return {
 				...state,
 				structure: [...newStructure],
+				globalText: state.lastActive.text,
 				globalStyle: {
 					...style,
 				},
@@ -112,7 +112,6 @@ export const mainSiteReducer = (state = initialState, action) => {
 		}
 
 		case SET_GLOBAL_TEXT: {
-			console.log(action);
 			return {
 				...state,
 				globalText: action.text,
@@ -185,11 +184,11 @@ export const mainSiteReducer = (state = initialState, action) => {
 				path: path.join(':'),
 				type: action.block_type || 'div',
 				className: 'child3',
-				text: '',
 				active: false,
 				edit: false,
+				text: state.globalText,
 				style: {
-					background: '#adaA',
+					backgroundColor: '#adaA',
 					height: '33px',
 					width: '33px',
 					...state.globalStyle,
@@ -217,7 +216,7 @@ export const mainSiteReducer = (state = initialState, action) => {
 				path: path.join(':'),
 				type: action.block_type || 'div',
 				className: 'childAfter',
-				text: '',
+				text: state.globalText,
 				active: false,
 				edit: false,
 				style: {

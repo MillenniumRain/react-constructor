@@ -30,7 +30,6 @@ const ContFontBlock = (props) => {
 		// добавить выбор цвета после подчеркивание типо (overline red)
 		textDecoration: ['underline', 'overline', 'none', 'inherit', 'initial', 'revert', 'unset'],
 		textTransform: [
-			'none',
 			'capitalize',
 			'uppercase',
 			'lowercase',
@@ -40,6 +39,7 @@ const ContFontBlock = (props) => {
 			'initial',
 			'revert',
 			'unset',
+			'none',
 		],
 		textAlign: ['left', 'right', 'center', 'justify', 'start', 'end', 'match-parent', 'inherit'],
 	};
@@ -61,6 +61,7 @@ const ContFontBlock = (props) => {
 		dispatch(setStyleToBlock());
 	};
 	useEffect(() => {
+		if (!color) return;
 		setStyle({ ...style, color });
 	}, [color]);
 

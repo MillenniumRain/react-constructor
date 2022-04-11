@@ -1,15 +1,18 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeGobalStyle, setGobalStyle, setStyleToBlock } from '../../store/actions/actions';
 import SwitchingTags from './SwitchingTags';
-const ContSwitchingTags = (props) => {
+const ContSwitchingTags = ({ name }) => {
 	const dispatch = useDispatch();
 	const lastActiveStyle = useSelector((state) => state.mainSiteReducer.lastActive);
+	const style = lastActiveStyle?.style[name];
+	const [fullSwitcher, setFullSwitcher] = useState(false);
 	const defaultSettings = {
 		left: '%',
 		right: 'px',
-		value: lastActiveStyle?.style[props.name] || '',
+		value: style || '',
 		active: 'right',
+		fullValue: style ? style + 'px' : '',
 	};
 
 	const [settings, setSettings] = useState(defaultSettings);
@@ -18,11 +21,11 @@ const ContSwitchingTags = (props) => {
 	let value = cleanValue ? cleanValue + unit : '';
 	useEffect(() => {
 		if (!lastActiveStyle) return;
+
 		let active = defaultSettings.active;
 		let left = defaultSettings.left;
 		let valDig = '';
-		if (lastActiveStyle?.style[props.name]) {
-			const style = lastActiveStyle.style[props.name];
+		if (style) {
 			const valUnit = style?.replace(/[0-9]/g, '');
 			valDig = style?.replace(/[^0-9]/g, '');
 			if (defaultSettings.left === valUnit) {
@@ -40,13 +43,13 @@ const ContSwitchingTags = (props) => {
 			right: defaultSettings.right,
 			value: valDig,
 			active: active,
+			fullValue: style,
 		});
 	}, [lastActiveStyle]);
-
 	const onLeftTagClick = useCallback(
 		(e, unit) => {
 			setSettings({ ...settings, active: 'left' });
-			dispatch(setGobalStyle({ [props.name]: cleanValue + unit }));
+			dispatch(setGobalStyle({ [name]: cleanValue + unit }));
 			dispatch(setStyleToBlock());
 		},
 		[cleanValue, unit]
@@ -54,45 +57,62 @@ const ContSwitchingTags = (props) => {
 	const onRightTagClick = useCallback(
 		(e, unit) => {
 			setSettings({ ...settings, active: 'right' });
-			dispatch(setGobalStyle({ [props.name]: cleanValue + unit }));
+			dispatch(setGobalStyle({ [name]: cleanValue + unit }));
 			dispatch(setStyleToBlock());
 		},
 		[cleanValue, unit]
 	);
 	const onChangeHandler = (e) => {
-		const onlyDigits = e.target.value.replace(/[^0-9]/g, '');
-		setSettings({ ...settings, value: onlyDigits });
-
-		const value = onlyDigits ? onlyDigits + unit : '';
-		console.log(value);
-		if (value) {
-			dispatch(setGobalStyle({ [props.name]: value }));
+		let value;
+		if (!fullSwitcher) {
+			const onlyDigits = e.target.value.replace(/[^0-9]/g, '');
+			setSettings({ ...settings, value: onlyDigits });
+			value = onlyDigits ? onlyDigits + unit : '';
 		} else {
-			dispatch(removeGobalStyle(props.name));
+			value = e.target.value;
+			setSettings({ ...settings, fullValue: value });
+		}
+		if (value) {
+			dispatch(setGobalStyle({ [name]: value }));
+		} else {
+			dispatch(removeGobalStyle(name));
 		}
 		dispatch(setStyleToBlock());
 	};
-	const onCenterClick = (e) => {
+	const onInputClick = (e) => {
+		if (fullSwitcher) return;
 		const root = e.target;
 		const value = root.value;
 		root.selectionStart = 0;
 		root.selectionEnd = value.length - unit.length;
 	};
-	const onCenterKeyUp = (e) => {
+	const onInputKeyUp = (e) => {
+		if (fullSwitcher) return;
 		const root = e.target;
 		root.selectionEnd = value.length - unit.length;
 	};
+	const onInputContextMenu = (e) => {
+		e.preventDefault();
+		setFullSwitcher(!fullSwitcher);
+		if (!fullSwitcher) {
+			e.target.style.width = '150px';
+		} else {
+			e.target.style.width = '';
+		}
+	};
 	return (
 		<SwitchingTags
-			name={props.name}
-			setSettings={setSettings}
+			name={name}
+			fullSwitcher={fullSwitcher}
 			settings={settings}
 			value={value}
-			onCenterKeyUp={onCenterKeyUp}
-			onCenterClick={onCenterClick}
+			setSettings={setSettings}
+			onInputKeyUp={onInputKeyUp}
+			onInputClick={onInputClick}
 			onChangeHandler={onChangeHandler}
 			onLeftTagClick={onLeftTagClick}
 			onRightTagClick={onRightTagClick}
+			onInputContextMenu={onInputContextMenu}
 		/>
 	);
 };

@@ -79,3 +79,9 @@ export const dataAPI = {
 		return data;
 	},
 };
+
+export const convert = {
+	stringToArrayOfNumbers(str) {
+		return str.match(/-?\d+(\.\d+)?/g);
+	},
+};

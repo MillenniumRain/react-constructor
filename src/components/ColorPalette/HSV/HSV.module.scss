@@ -1,0 +1,107 @@
+.palette {
+	&__dropdown {
+		margin-top: 10px;
+		width: 400px;
+		padding: 10px;
+		-moz-user-select: none;
+		-khtml-user-select: none;
+		user-select: none;
+	}
+	&__container {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 10px;
+	}
+	&__block {
+		width: 250px;
+		height: 250px;
+		position: relative;
+	}
+	&__picker {
+		width: 10px;
+		height: 10px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		border: 1px solid black;
+		outline: 1px solid white;
+		z-index: 1;
+		&_horizontal {
+			width: 100%;
+			height: 10px;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border: 1px solid black;
+			outline: 1px solid white;
+			z-index: 1;
+		}
+		&_vertical {
+			width: 10px;
+			height: 100%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border: 1px solid black;
+			outline: 1px solid white;
+			z-index: 1;
+		}
+	}
+	&__line {
+		position: relative;
+		width: 30px;
+		height: 250px;
+		background: linear-gradient(
+			0deg,
+			hsl(0, 100%, 50%) 0%,
+			rgb(255, 255, 0) 16.66%,
+			rgb(0, 255, 0) 33.32%,
+			rgb(0, 255, 255) 49.98%,
+			rgb(0, 0, 255) 66.64%,
+			rgb(255, 0, 255) 83.3%,
+			rgb(255, 0, 0) 100%
+		);
+	}
+	&__selected_color {
+		width: 80px;
+		height: 80px;
+	}
+	&__alpha_color {
+		width: 250px;
+		height: 20px;
+		margin-bottom: 10px;
+		background: no-repeat url('../../../img/opacity.png');
+		position: relative;
+		&::after {
+			content: '';
+			width: 100%;
+			height: 100%;
+			display: block;
+			position: absolute;
+			background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #000000 100%, #000000 100%);
+			top: 0;
+			left: 0;
+		}
+	}
+	&__input_container {
+		display: flex;
+		justify-content: space-around;
+	}
+	&__input_group {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: column;
+	}
+
+	&__input {
+		border: 1px solid black;
+		width: 100%;
+		text-align: center;
+	}
+	&__bg {
+		pointer-events: none;
+		width: 100%;
+		height: 100%;
+	}
+}

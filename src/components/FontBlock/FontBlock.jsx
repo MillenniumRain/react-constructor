@@ -61,15 +61,6 @@ const FontBlock = (props) => {
 					value={props.style['lineHeight']}
 					onChange={(e) => props.onChange(e, 'lineHeight')}
 				/>
-
-				{
-					// <Input
-					// 	type='text'
-					// 	placeholder='Font-variant'
-					// 	value={props.style['fontVariant']}
-					// 	onChange={(e) => props.onChange(e, 'fontVariant')}
-					// />
-				}
 			</div>
 			<div className={s.input__example_container}>
 				<div className={s.input__example}>

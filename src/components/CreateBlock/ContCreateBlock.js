@@ -4,7 +4,6 @@ import {
 	createAfterBlock,
 	createBlock,
 	deleteBlock,
-	setGobalStyle,
 	setStyleToBlock,
 	setTextToBlock,
 } from '../../store/actions/actions';

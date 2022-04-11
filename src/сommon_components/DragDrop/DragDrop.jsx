@@ -1,11 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
-import s from './DragDrop.module.scss';
+// import s from './DragDrop.module.scss';
 
-const DragDrop = (props) => {
+const DragDrop = ({
+	children,
+	setSize,
+	onMouseMove,
+	onMouseDown,
+	onMouseUp,
+	className,
+	dragClassName,
+	style,
+	positionX,
+	positionY,
+}) => {
 	const dragBlock = useRef();
 	const dragParent = useRef();
 
-	const [coords, setCoords] = useState({ parent: {}, drag: {} });
+	const [coords, setCoords] = useState({ parent: {}, drag: { x: null, y: null } });
 	const [mouseDown, setMouseDown] = useState(false);
 
 	const checkAndSetCoords = (e) => {
@@ -31,27 +42,27 @@ const DragDrop = (props) => {
 	};
 	const onMouseMoveHandler = (e) => {
 		if (mouseDown) {
-			props.onMouseMove && props.onMouseMove(e, coords);
+			onMouseMove && onMouseMove(e, coords);
 			checkAndSetCoords(e);
 		}
 	};
 	const onMouseDownHandler = (e) => {
-		props.onMouseDown && props.onMouseDown(e, coords);
+		onMouseDown && onMouseDown(e, coords);
 		setMouseDown(true);
 		checkAndSetCoords(e);
 	};
 	const onMouseUpHandler = (e) => {
-		props.onMouseUp && props.onMouseUp(e, coords);
+		onMouseUp && onMouseUp(e, coords);
 		setMouseDown(false);
 	};
 	useEffect(() => {
 		const parent = dragParent?.current?.getBoundingClientRect();
 		const drag = dragBlock?.current?.getBoundingClientRect();
-
 		setCoords({
 			parent: { rect: parent },
-			drag: { rect: drag, x: 0, y: 0 },
+			drag: { rect: drag, x: null, y: null },
 		});
+		setSize({ parent, drag });
 		document.addEventListener('mouseup', onMouseUpHandler);
 		// document.addEventListener('mousemove', onMouseMoveHandler);
 		return () => {
@@ -59,18 +70,23 @@ const DragDrop = (props) => {
 			// document.removeEventListener('mousemove', onMouseMoveHandler);
 		};
 	}, []);
+
 	return (
 		<div
 			ref={dragParent}
-			className={props.className}
-			style={props.style}
+			className={className}
+			style={style}
 			onMouseMove={onMouseMoveHandler}
 			onMouseDown={onMouseDownHandler}>
-			{props.children}
+			{children}
 			<div
 				ref={dragBlock}
-				className={props.dragClassName}
-				style={{ position: 'absolute', left: coords.drag?.x + 'px', top: coords.drag?.y + 'px' }}></div>
+				className={dragClassName}
+				style={{
+					position: 'absolute',
+					left: (coords.drag?.x || positionX) + 'px',
+					top: (coords.drag?.y || positionY) + 'px',
+				}}></div>
 		</div>
 	);
 };
