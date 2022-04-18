@@ -13,21 +13,20 @@ const DisplayBlock = ({
 	onClickDisplay,
 	onDisplayDeleteHandler,
 	onDeleteHandler,
-	setStyle,
-	currentDisplay,
+	setStyleHandler,
 	onClickBtnHandler,
 	onClickSelectFlex,
-	currentJustifyAlign,
+	currentStyles,
 }) => {
 	const flexPointClass = (justifyContent, alignItems) => {
-		if (justifyContent === currentJustifyAlign?.justifyContent && alignItems === currentJustifyAlign?.alignItems) {
+		if (justifyContent === currentStyles?.justifyContent && alignItems === currentStyles?.alignItems) {
 			return [s.display__flex_point, s.display__flex_point_active].join(' ');
 		}
 
 		return s.display__flex_point;
 	};
 	const buttonClass = (name) => {
-		if (currentDisplay === name) return [s.display__button, s.display__button_active].join(' ');
+		if (currentStyles.display === name) return [s.display__button, s.display__button_active].join(' ');
 		return s.display__button;
 	};
 
@@ -36,11 +35,11 @@ const DisplayBlock = ({
 			<div className={s.display__block}>
 				<Select
 					className={s.display__select}
-					onClickOption={(e, value) => onClickDisplay(e, value, 'display')}
-					onDelete={(e) => onDisplayDeleteHandler(e, 'display')}
+					onClickOption={(e, value) => onClickDisplay(e, value)}
+					onDelete={(e) => onDisplayDeleteHandler(e)}
 					defaultValue='Display'
 					values={displaySelect}
-					selectedValue={currentDisplay}
+					selectedValue={currentStyles.display}
 				/>
 				<Button onClick={(e) => onClickBtnHandler(e, 'block')} className={buttonClass('block')}>
 					block
@@ -52,7 +51,7 @@ const DisplayBlock = ({
 					none
 				</Button>
 			</div>
-			{currentDisplay === 'flex' && (
+			{currentStyles.display === 'flex' && (
 				<div className={s.display__flex_box}>
 					<div className={s.display__flex_preview}>
 						<div className={s.display__flex_block}>
@@ -93,41 +92,44 @@ const DisplayBlock = ({
 					</div>
 					<Select
 						className={s.display__select}
-						onClickOption={(e, value) => setStyle(e, value, 'justifyContent')}
+						onClickOption={(e, value) => setStyleHandler(e, value, 'justifyContent')}
 						onDelete={(e) => onDeleteHandler(e, 'justifyContent')}
 						defaultValue='Justify-content'
 						values={justifyContentSelect}
-						selectedValue={currentJustifyAlign.justifyContent}
+						selectedValue={currentStyles.justifyContent}
 					/>
 					<Select
 						className={s.display__select}
-						onClickOption={(e, value) => setStyle(e, value, 'alignItems')}
+						onClickOption={(e, value) => setStyleHandler(e, value, 'alignItems')}
 						onDelete={(e) => onDeleteHandler(e, 'alignItems')}
 						defaultValue='Align-items'
 						values={alignItemsSelect}
-						selectedValue={currentJustifyAlign.alignItems}
+						selectedValue={currentStyles.alignItems}
 					/>
 					<Select
 						className={s.display__select}
-						onClickOption={(e, value) => setStyle(e, value, 'alignContent')}
+						onClickOption={(e, value) => setStyleHandler(e, value, 'alignContent')}
 						onDelete={(e) => onDeleteHandler(e, 'alignContent')}
 						defaultValue='Align-content'
 						values={alignContentSelect}
+						selectedValue={currentStyles.alignContent}
 					/>
 
 					<Select
 						className={s.display__select}
-						onClickOption={(e, value) => setStyle(e, value, 'flexDirection')}
+						onClickOption={(e, value) => setStyleHandler(e, value, 'flexDirection')}
 						onDelete={(e) => onDeleteHandler(e, 'flexDirection')}
 						defaultValue='Flex-direction'
 						values={flexDirectionSelect}
+						selectedValue={currentStyles.flexDirection}
 					/>
 					<Select
 						className={s.display__select}
-						onClickOption={(e, value) => setStyle(e, value, 'flexWrap')}
+						onClickOption={(e, value) => setStyleHandler(e, value, 'flexWrap')}
 						onDelete={(e) => onDeleteHandler(e, 'flexWrap')}
 						defaultValue='Flex-wrap'
 						values={flexWrapSelect}
+						selectedValue={currentStyles.flexWrap}
 					/>
 				</div>
 			)}

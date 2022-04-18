@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { objectHelper } from '../../lib/utility';
 import { setGobalStyle, setStyleToBlock } from '../../store/actions/actions';
 import FontBlock from './FontBlock';
 
 const ContFontBlock = (props) => {
-	const color = useSelector((state) => state.mainSiteReducer.globalStyle['color']) || '';
+	const styles = useSelector((state) => state.mainSiteReducer.lastActive?.style) || {};
+	const color = styles?.color;
 	const dispatch = useDispatch();
 	const values = {
 		fontStyle: ['normal', 'italic', 'oblique', 'inherit', 'initial', 'unset'],
@@ -43,7 +45,7 @@ const ContFontBlock = (props) => {
 		],
 		textAlign: ['left', 'right', 'center', 'justify', 'start', 'end', 'match-parent', 'inherit'],
 	};
-	const [style, setStyle] = useState({
+	const defaultObject = {
 		fontFamily: '',
 		fontStyle: '',
 		fontVariant: '',
@@ -53,7 +55,8 @@ const ContFontBlock = (props) => {
 		color: '',
 		textDecoration: '',
 		textTransform: '',
-	});
+	};
+	const [style, setStyle] = useState(defaultObject);
 	const onChangeFontSettings = (e, name, value) => {
 		const currentStyle = { [name]: value || e.target.value };
 		setStyle({ ...style, ...currentStyle });
@@ -61,9 +64,12 @@ const ContFontBlock = (props) => {
 		dispatch(setStyleToBlock());
 	};
 	useEffect(() => {
-		if (!color) return;
-		setStyle({ ...style, color });
-	}, [color]);
+		if (!objectHelper.isObjectHasKeyAnotherObject(styles, style)) {
+			setStyle(defaultObject);
+		} else {
+			setStyle(objectHelper.mergeObjects(styles, style));
+		}
+	}, [styles]);
 
 	return <FontBlock values={values} style={style} onChange={onChangeFontSettings} />;
 };

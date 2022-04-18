@@ -39,8 +39,11 @@ export const Select = ({
 	};
 
 	useEffect(() => {
-		if (!selectedValue) return;
-		setValue(selectedValue);
+		if (!selectedValue) {
+			setValue(defaultVal);
+		} else {
+			setValue(selectedValue);
+		}
 	}, [selectedValue]);
 	return (
 		<div className={[s.select, className].join(' ')}>

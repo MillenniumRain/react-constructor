@@ -39,6 +39,7 @@ const SwitchingTags = ({
 				onClick={onInputClick}
 				onChange={onChangeHandler}
 				className={s.switcher__tag_center}
+				// placeholder={'0' + settings[active]}
 				value={!fullSwitcher ? value : settings.fullValue}
 			/>
 			{!fullSwitcher && (

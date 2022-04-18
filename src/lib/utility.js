@@ -85,3 +85,24 @@ export const convert = {
 		return str.match(/-?\d+(\.\d+)?/g);
 	},
 };
+export const objectHelper = {
+	isObjectHasKeyAnotherObject(first = {}, second = {}) {
+		// проверяет есть ли первый объект во втором
+		let flag = false;
+		for (const key in second) {
+			flag = [Object.keys(first).includes(key), key];
+			if (flag[0]) return flag[0];
+		}
+		return false;
+	},
+
+	mergeObjects(first = {}, second = {}) {
+		// вернет второй объект со свойствами первого
+		const output = {};
+		for (const key in second) {
+			output[key] = first[key] || '';
+		}
+		// console.log(output);
+		return output;
+	},
+};
