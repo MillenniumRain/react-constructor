@@ -5,8 +5,7 @@ import { setGobalStyle, setStyleToBlock } from '../../store/actions/actions';
 import FontBlock from './FontBlock';
 
 const ContFontBlock = (props) => {
-	const styles = useSelector((state) => state.mainSiteReducer.lastActive?.style) || {};
-	const color = styles?.color;
+	const styles = useSelector((state) => state.mainSiteReducer.lastActive?.style);
 	const dispatch = useDispatch();
 	const values = {
 		fontStyle: ['normal', 'italic', 'oblique', 'inherit', 'initial', 'unset'],
@@ -64,6 +63,7 @@ const ContFontBlock = (props) => {
 		dispatch(setStyleToBlock());
 	};
 	useEffect(() => {
+		if (!styles) return;
 		if (!objectHelper.isObjectHasKeyAnotherObject(styles, style)) {
 			setStyle(defaultObject);
 		} else {

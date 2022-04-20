@@ -2,6 +2,22 @@ export const formatString = {
 	toTwoNumbers(string) {
 		return ('0' + string).slice(-2);
 	},
+	toThroughDash(string) {
+		return string
+			.trim()
+			.split(/(?=[A-Z])/)
+			.join('-')
+			.toLowerCase();
+	},
+	toCamelCase(string) {
+		let str = string
+			.trim()
+			.toLowerCase()
+			.split(/[ -_]/g)
+			.map((val) => val[0].toUpperCase() + val.slice(1))
+			.join('');
+		return str.replace(str[0], str[0].toLowerCase());
+	},
 };
 export const myDOM = {
 	toAll(state, array, callback) {
@@ -86,8 +102,10 @@ export const convert = {
 	},
 };
 export const objectHelper = {
+	// проверяет есть ли первый объект во втором
 	isObjectHasKeyAnotherObject(first = {}, second = {}) {
-		// проверяет есть ли первый объект во втором
+		if (!Object.keys(first).length || !Object.keys(second).length) return false;
+
 		let flag = false;
 		for (const key in second) {
 			flag = [Object.keys(first).includes(key), key];
@@ -95,9 +113,8 @@ export const objectHelper = {
 		}
 		return false;
 	},
-
+	// вернет второй объект со свойствами первого
 	mergeObjects(first = {}, second = {}) {
-		// вернет второй объект со свойствами первого
 		const output = {};
 		for (const key in second) {
 			output[key] = first[key] || '';

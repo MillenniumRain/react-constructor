@@ -1,11 +1,15 @@
 .input {
-	margin-bottom: 10px;
+	display: flex;
 	position: relative;
-	margin-top: 10px;
 	&__input {
-		padding: 5px 10px;
-		height: 32px;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		background: none;
+		// height: 100%;
+		// width: 100%;
+
 		background: #ccc;
+		padding: 5px 10px;
 	}
 
 	&__label {

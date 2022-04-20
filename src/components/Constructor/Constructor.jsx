@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import ColorPalette from '../ColorPalette/ColorPalette';
 import ContCreateBlock from '../CreateBlock/ContCreateBlock';
+import ContCustomCss from '../CustomCss/ContCustomCss';
 import ContDisplayBlock from '../DisplayBlock/ContDisplayBlock';
 import ContFontBlock from '../FontBlock/ContFontBlock';
 import ContHeaderMenu from '../HeaderMenu/ContHeaderMenu';
@@ -39,6 +40,9 @@ const Constructor = (props) => {
 
 				<section className={s.settings__block}>
 					<ContMapSite />
+				</section>
+				<section className={s.settings__block}>
+					<ContCustomCss />
 				</section>
 
 				<section className={s.settings__block}>

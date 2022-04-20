@@ -6,13 +6,14 @@ import DisplayBlock from './DisplayBlock';
 
 const ContDisplayBlock = (props) => {
 	const dispatch = useDispatch();
-	const styles = useSelector((state) => state.mainSiteReducer.lastActive)?.style || {};
+	const styles = useSelector((state) => state.mainSiteReducer.lastActive?.style);
 	const defaulFlexValues = {
 		justifyContent: '',
 		alignItems: '',
 		alignContent: '',
 		flexDirection: '',
 		justifyContent: '',
+		flexWrap: '',
 	};
 	const defaultValues = {
 		display: '',
@@ -111,14 +112,17 @@ const ContDisplayBlock = (props) => {
 		dispatch(removeGobalStyle('flexWrap'));
 		dispatch(setStyleToBlock());
 	};
-
 	useEffect(() => {
+		// console.log(styles);
+		if (!styles) return;
 		if (!objectHelper.isObjectHasKeyAnotherObject(styles, currentStyles)) {
 			setCurrentStyles(defaultValues);
 		} else {
+			console.log(objectHelper.mergeObjects(styles, currentStyles));
 			setCurrentStyles(objectHelper.mergeObjects(styles, currentStyles));
 		}
 	}, [styles]);
+
 	return (
 		<DisplayBlock
 			currentStyles={currentStyles}

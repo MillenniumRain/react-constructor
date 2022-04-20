@@ -69,7 +69,7 @@ export const mainSiteReducer = (state = initialState, action) => {
 					if (block.path === state.lastActive.path) {
 						block.crClassName = [block.crClassName, 'cr_editable'].join(' ');
 
-						state.lastActive = block;
+						state.lastActive.crClassName = [block.crClassName, 'cr_editable'].join(' ');
 					}
 				});
 
