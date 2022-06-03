@@ -1,0 +1,27 @@
+$color: #ccc;
+$key_color: #ff7de9;
+$value_color: #a2bdf0;
+.style {
+	display: flex;
+	padding-left: 15px;
+	margin-bottom: 2px;
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	&__property,
+	&__value {
+		background: none;
+		color: $color;
+		margin: 0;
+		border: 1px solid $color;
+		padding: 0;
+		font-size: 16px;
+	}
+	&__semicolon,
+	&__colon {
+		color: $color;
+		margin: 0 5px 0 0;
+	}
+}

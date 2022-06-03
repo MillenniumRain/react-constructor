@@ -1,13 +1,14 @@
 import React from 'react';
 import s from './Input.module.scss';
 
-const Input = ({ placeholder, value, className, onChange, key, style, ...props }) => {
+const Input = React.forwardRef(({ placeholder, value, className, onChange, key, style, ...props }, ref) => {
 	const label = placeholder;
 	const newProps = { ...props, placeholder: '' };
 	const id = ['rc', label, newProps.value, key].join('');
 	return (
 		<div className={[s.input].join(' ')}>
 			<input
+				ref={ref}
 				{...newProps}
 				type='text'
 				id={id}
@@ -20,6 +21,6 @@ const Input = ({ placeholder, value, className, onChange, key, style, ...props }
 			</label>
 		</div>
 	);
-};
+});
 
 export default Input;

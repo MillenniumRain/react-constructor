@@ -16,7 +16,9 @@ const Constructor = (props) => {
 			<ContHeaderMenu />
 			<div className={s.settings}>
 				<ContCreateBlock />
-
+				<section className={s.settings__block}>
+					<ContCustomCss />
+				</section>
 				<section className={s.settings__block}>
 					<ContSwitchingTags name='width' />
 					<ContSwitchingTags name='height' />
@@ -40,9 +42,6 @@ const Constructor = (props) => {
 
 				<section className={s.settings__block}>
 					<ContMapSite />
-				</section>
-				<section className={s.settings__block}>
-					<ContCustomCss />
 				</section>
 
 				<section className={s.settings__block}>

@@ -1,0 +1,29 @@
+$color: #ccc;
+$key_color: #ff7de9;
+$value_color: #a2bdf0;
+.style {
+	display: flex;
+	padding-left: 15px;
+	margin-bottom: 2px;
+	&:hover {
+		cursor: pointer;
+	}
+
+	&__property {
+		color: $key_color;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	&__value {
+		color: $value_color;
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+	&__semicolon,
+	&__colon {
+		color: $color;
+		margin: 0 5px 0 0;
+	}
+}

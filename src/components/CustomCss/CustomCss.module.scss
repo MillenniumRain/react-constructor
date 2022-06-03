@@ -1,7 +1,3 @@
-$color: #ccc;
-$key_color: #a2bdf0;
-$value_color: #ff7de9;
-
 .styles {
 	width: 100%;
 	background: #18181a;
@@ -11,62 +7,11 @@ $value_color: #ff7de9;
 	flex-direction: column;
 	overflow: hidden auto;
 	max-height: 200px;
-
-	&__style {
-		color: $color;
-		display: flex;
-		padding-left: 15px;
-		margin-bottom: 2px;
+	font-family: monospace;
+	color: #ccc;
+	&__brecket {
 		&:hover {
 			cursor: pointer;
-		}
-	}
-	&__empty {
-		padding: 0 0 4px 0;
-		position: relative;
-		top: -2px;
-		color: $color;
-	}
-	&__brace {
-		padding: 0 0 4px 0;
-		position: relative;
-		top: -2px;
-		color: $color;
-		&:hover {
-			cursor: pointer;
-		}
-	}
-	&__colon {
-		color: #ccc;
-		margin: 0 5px;
-	}
-	&__key_input {
-		font-size: 16px;
-		height: 17px;
-		border: 1px solid $color;
-		background: none;
-		color: #ccc;
-		padding: 0;
-		margin: 0;
-	}
-
-	&__key {
-		cursor: pointer;
-		color: $key_color;
-		margin-right: 10px;
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-	&__key_incorrect {
-		text-decoration: line-through;
-		color: #ccc;
-	}
-	&__value {
-		cursor: pointer;
-		color: $value_color;
-		&:hover {
-			text-decoration: underline;
 		}
 	}
 }
