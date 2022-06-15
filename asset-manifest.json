@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.95f99b8c.css",
+    "main.js": "/static/js/main.88ba6c37.js",
+    "static/media/opacity.png": "/static/media/opacity.c82357afe5966a45b133.png",
+    "static/media/bgGradient.png": "/static/media/bgGradient.c66bc5403874c27a3253.png",
+    "static/media/pipette.png": "/static/media/pipette.62b474da61bb25ab6b66.png",
+    "index.html": "/index.html",
+    "main.95f99b8c.css.map": "/static/css/main.95f99b8c.css.map",
+    "main.88ba6c37.js.map": "/static/js/main.88ba6c37.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.95f99b8c.css",
+    "static/js/main.88ba6c37.js"
+  ]
+}
