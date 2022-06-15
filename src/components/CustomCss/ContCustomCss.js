@@ -34,6 +34,7 @@ const ContCustomCss = (props) => {
 	};
 	const onSaveCSS = (property, value) => {
 		const camelCaseProperty = formatString.toCamelCase(property);
+		console.log(property, camelCaseProperty);
 		dispatch(setEditMode(true));
 		if (checkPropertyStyle(camelCaseProperty)) {
 			dispatch(removeGobalStyle(editableStyle.property.name));

@@ -16,7 +16,9 @@ export const formatString = {
 			.split(/[ -_]/g)
 			.map((val) => val[0].toUpperCase() + val.slice(1))
 			.join('');
-		return str.replace(str[0], str[0].toLowerCase());
+		const result = str.replace(str[0], str[0].toLowerCase());
+		if (string.length === result.length) return string;
+		return result;
 	},
 };
 export const myDOM = {
